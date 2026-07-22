@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Paso Housing — Field Index</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:ital,wght@0,400;0,500;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F7F1E2;
+    --ink:#151210;
+    --ink-soft:#4B4438;
+    --yellow:#F6C519;
+    --mint:#B7F1D8;
+    --salmon:#FAD1C1;
+    --lavender:#DCD2F6;
+    --gray:#E7E1D0;
+    --border:3px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--cream); color:var(--ink);
+    font-family:'DM Sans', sans-serif; font-size:16px; line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .display{font-family:'Archivo Black', sans-serif; line-height:1.04; letter-spacing:-0.01em; text-transform:uppercase;}
+  a{color:inherit;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
+
+  /* hard-shadow sticker utility */
+  .pop{
+    border:var(--border) solid var(--ink);
+    border-radius:14px;
+    box-shadow:5px 5px 0 var(--ink);
+  }
+
+  mark.hl{
+    background:var(--yellow); color:var(--ink); padding:2px 9px; border-radius:6px;
+    box-decoration-break:clone; -webkit-box-decoration-break:clone; font-weight:800;
+  }
+  mark.hl.mint{background:var(--mint);}
+  mark.hl.salmon{background:var(--salmon);}
+  mark.hl.lavender{background:var(--lavender);}
+
+  /* ---- top bar ---- */
+  header.top{position:sticky; top:0; z-index:50; background:rgba(247,241,226,.94); backdrop-filter:blur(6px); border-bottom:3px solid var(--ink);}
+  .topbar{max-width:1080px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;}
+  .wordmark{font-family:'Archivo Black', sans-serif; font-size:14px; text-transform:uppercase; letter-spacing:.01em;}
+  .jumpnav{display:flex; gap:8px; flex-wrap:wrap;}
+  .pill{
+    display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:12.5px;
+    padding:6px 14px; border:2px solid var(--ink); border-radius:999px; background:var(--cream);
+    text-decoration:none; cursor:pointer;
+  }
+  .jumpnav a.pill:hover{transform:translateY(-1px);}
+
+  /* ---- hero ---- */
+  .hero{padding:48px 0 0;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; background:var(--yellow);
+    border:2.5px solid var(--ink); border-radius:999px; padding:7px 18px 7px 14px;
+    box-shadow:4px 4px 0 var(--ink); font-weight:800; font-size:12.5px; letter-spacing:.02em;
+    margin-bottom:24px;
+  }
+  h1.headline{font-size:clamp(2.3rem,6vw,3.6rem); margin:0 0 22px;}
+  h1.headline span.line{display:block;}
+  .dek{font-size:1.08rem; color:var(--ink-soft); max-width:60ch; margin:0 0 34px; font-weight:500;}
+  .dek mark.hl{font-weight:700; padding:1px 7px;}
+
+  .statgrid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:56px;}
+  @media (max-width:760px){.statgrid{grid-template-columns:repeat(2,1fr);}}
+  .stat{padding:22px 18px 20px; background:var(--mint);}
+  .stat:nth-child(2){background:var(--yellow);}
+  .stat:nth-child(3){background:var(--salmon);}
+  .stat:nth-child(4){background:var(--lavender);}
+  .stat .n{font-family:'Archivo Black', sans-serif; font-size:2rem;}
+  .stat .l{font-size:12.5px; font-weight:700; text-transform:uppercase; margin-top:8px; line-height:1.35; color:var(--ink);}
+
+  /* ---- category sections ---- */
+  .catsection{padding:20px 0 58px; scroll-margin-top:80px;}
+  .cat-head{max-width:74ch; margin-bottom:34px;}
+  .cat-eyebrow{margin-bottom:18px;}
+  h2.cat-headline{font-size:clamp(1.7rem,4vw,2.4rem); margin:0 0 16px;}
+  .cat-finding{font-size:1.02rem; color:var(--ink-soft); font-weight:500; max-width:66ch;}
+  .cat-finding mark.hl{font-weight:700; padding:1px 7px; font-size:.98em;}
+
+  .cardgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  @media (max-width:860px){.cardgrid{grid-template-columns:1fr;}}
+  .card{padding:24px 22px 22px; display:flex; flex-direction:column; min-height:200px;}
+  .card .tag{font-size:11.5px; font-weight:800; text-transform:uppercase; letter-spacing:.03em; margin-bottom:12px; opacity:.65;}
+  .card h3{font-family:'Archivo Black', sans-serif; text-transform:none; font-size:1.15rem; line-height:1.18; margin:0 0 10px; letter-spacing:0;}
+  .card p{font-size:.92rem; color:var(--ink); font-weight:500; margin:0; flex-grow:1; opacity:.82;}
+  .card .go{
+    margin-top:16px; align-self:flex-start; font-weight:800; font-size:12px; text-transform:uppercase;
+    background:var(--ink); color:var(--cream); padding:8px 14px; border-radius:999px;
+  }
+  a.card{text-decoration:none; transition:transform .1s ease;}
+  a.card:hover{transform:translate(-2px,-2px); box-shadow:7px 7px 0 var(--ink);}
+  .card.soon{opacity:.6; background:repeating-linear-gradient(135deg, var(--gray) 0 9px, #ded8c4 9px 18px); box-shadow:none;}
+  .card.soon .go{background:var(--ink-soft);}
+
+  .cat-demand .card{background:var(--yellow);}
+  .cat-supply .card{background:var(--mint);}
+  .cat-market .card{background:var(--salmon);}
+  .cat-tools .card{background:var(--lavender);}
+
+  footer{border-top:3px solid var(--ink); padding:26px 0 50px;}
+  footer .note{font-size:.85rem; color:var(--ink-soft); max-width:62ch; font-weight:500;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="topbar">
+    <div class="wordmark">El Paso Housing</div>
+    <nav class="jumpnav">
+      <a class="pill" style="background:var(--yellow);" href="#demand">📍 Demand</a>
+      <a class="pill" style="background:var(--mint);" href="#supply">🏗️ Supply</a>
+      <a class="pill" style="background:var(--salmon);" href="#market">💵 Market</a>
+      <a class="pill" style="background:var(--lavender);" href="#tools">🛠️ Tools</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="eyebrow">📍 EL PASO, TX — HOUSING FIELD INDEX</div>
+    <h1 class="headline display">
+      <span class="line">THE STATE OF</span>
+      <span class="line"><mark class="hl">HOUSING</mark></span>
+      <span class="line">IN EL PASO</span>
+    </h1>
+    <p class="dek">Twelve reports, one running picture: vacancy keeps <mark class="hl mint">tightening</mark> even as new construction concentrates on the fringe, the historic core gets <mark class="hl salmon">left out</mark>, and the safety valve that's supposed to fix this — older homes filtering down — runs <mark class="hl lavender">weaker every year</mark>.</p>
+
+    <div class="statgrid">
+      <div class="stat pop">
+        <div class="n display">9,541</div>
+        <div class="l">Households tracked citywide</div>
+      </div>
+      <div class="stat pop">
+        <div class="n display">1.06%</div>
+        <div class="l">Residential vacancy, Mar 2026 — tightest in six quarters</div>
+      </div>
+      <div class="stat pop">
+        <div class="n display">17%</div>
+        <div class="l">New-construction price premium over resale</div>
+      </div>
+      <div class="stat pop">
+        <div class="n display">−45%</div>
+        <div class="l">Drop in annual building permits vs. the 2010s</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DEMAND ================= -->
+  <section class="catsection cat-demand" id="demand">
+    <div class="cat-head">
+      <div class="eyebrow cat-eyebrow" style="background:var(--yellow);">📍 WHO'S MOVING &amp; BUYING</div>
+      <h2 class="cat-headline display">GROWTH IS <mark class="hl">HOMEGROWN</mark>, NOT CALIFORNIAN</h2>
+      <p class="cat-finding">Out-of-state arrivals get the headlines, but the data says otherwise: California accounts for just <mark class="hl">3%</mark> of tracked moves, and <mark class="hl">74%</mark> of first-time buyers never left Texas. The real divide isn't where movers come from — it's the <mark class="hl">$33k income gap</mark> between who moves into new fringe housing and who inherits the historic core, and the <mark class="hl">32.6%</mark> of households already doubled up because no smaller legal unit exists for them to move into.</p>
+    </div>
+    <div class="cardgrid">
+      <a class="card pop" href="https://hoffmanap.github.io/epmigration/" target="_blank" rel="noopener">
+        <div class="tag">Migration · 9,541 movers</div>
+        <h3>Desert Drift</h3>
+        <p>Vacancy chains, the real size of the "California invasion," the Fort Bliss rotation, and why the average mover is 55–64, not 30-something.</p>
+        <div class="go">Open Report →</div>
+      </a>
+      <a class="card pop" href="https://hoffmanap.github.io/el-paso-homebuyer/" target="_blank" rel="noopener">
+        <div class="tag">First-Time Buyers · 849 transactions</div>
+        <h3>El Paso Homebuyer Analysis</h3>
+        <p>74% of first-time buyers never left Texas, and 77% financed with FHA or VA loans rather than conventional mortgages.</p>
+        <div class="go">Open Report →</div>
+      </a>
+      <a class="card pop" href="https://hoffmanap.github.io/buyerinsights/" target="_blank" rel="noopener">
+        <div class="tag">Buyer Insights · 12,901 linked records</div>
+        <h3>The El Paso Housing Matrix</h3>
+        <p>Linked MLS, HMDA, and mover data show out-of-state buyers earning $168k dominating every home over $350k.</p>
+        <div class="go">Open Report →</div>
+      </a>
+      <a class="card pop" href="https://hoffmanap.github.io/doublingup/" target="_blank" rel="noopener">
+        <div class="tag">Latent Demand · ACS PUMS</div>
+        <h3>The Hidden Households of El Paso</h3>
+        <p>32.6% of county households are already doubled up — and four in five of those are a parent, child, or grandchild, not a roommate.</p>
+        <div class="go">Open Report →</div>
+      </a>
+      <a class="card pop" href="https://hoffmanap.github.io/HHComposition/" target="_blank" rel="noopener">
+        <div class="tag">Household Composition · Part two</div>
+        <h3>Priced Out, Not Doubled Up</h3>
+        <p>Below 70% of area median income, most households aren't crowded — they're smaller, with fewer earners. The multigenerational minority is crowded at 4x the rate of the rest.</p>
+        <div class="go">Open Report →</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ================= SUPPLY ================= -->
+  <section class="catsection cat-supply" id="supply">
+    <div class="cat-head">
+      <div class="eyebrow cat-eyebrow" style="background:var(--mint);">🏗️ WHAT'S GETTING BUILT, AND WHERE</div>
+      <h2 class="cat-headline display">NEWER DOESN'T MEAN <mark class="hl mint">BIGGER</mark></h2>
+      <p class="cat-finding">New construction has pulled back <mark class="hl mint">32%</mark> in El Paso's fastest-growing zip codes, and it's landing on lots packed tighter, not larger. The mechanism that's supposed to send older homes down-market as buyers move to new construction is stalling: permits are down <mark class="hl mint">45%</mark> since the 2010s, and the new-vs-resale price gap keeps widening.</p>
+    </div>
+    <div class="cardgrid">
+      <a class="card pop" href="https://hoffmanap.github.io/censushousing/" target="_blank" rel="noopener">
+        <div class="tag">Field Ledger · 188 tracts</div>
+        <h3>Housing Unit Change by Census Tract</h3>
+        <p>Net housing-unit change, zoomable from county down to individual block.</p>
+        <div class="go">Open Report →</div>
+      </a>
+      <a class="card pop" href="https://hoffmanap.github.io/housinggrowth/" target="_blank" rel="noopener">
+        <div class="tag">Parcel Analysis · 17,113 homes</div>
+        <h3>New Growth vs. Old Core, 2010–2025</h3>
+        <p>New construction down 32% across El Paso's four fastest-growing zips, packing more square footage onto the same size lot.</p>
+        <div class="go">Open Report →</div>
+      </a>
+      <a class="card pop" href="https://hoffmanap.github.io/filtering/" target="_blank" rel="noopener">
+        <div class="tag">Diagnosis · 158 tracts, 38 yrs of permits</div>
+        <h3>Is El Paso's Housing Stock Filtering?</h3>
+        <p>Vacancy is rising exactly where it should be tightening, and permits are down 45% since the 2010s — with tract-specific policy targets.</p>
+        <div class="go">Open Report →</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ================= MARKET ================= -->
+  <section class="catsection cat-market" id="market">
+    <div class="cat-head">
+      <div class="eyebrow cat-eyebrow" style="background:var(--salmon);">💵 PRICES, RENTS &amp; TRANSACTIONS</div>
+      <h2 class="cat-headline display"><mark class="hl salmon">WHERE</mark> YOU BUY MATTERS MORE THAN WHEN</h2>
+      <p class="cat-finding">Waiting longer on the market only pays off in specific pockets of the city — the citywide relationship between days-on-market and price is nearly <mark class="hl salmon">invisible</mark> until you zoom into individual neighborhoods. Rents, sale prices, and who owns the rental stock all vary block by block.</p>
+    </div>
+    <div class="cardgrid">
+      <a class="card pop" href="https://hoffmanap.github.io/MLSSales/" target="_blank" rel="noopener">
+        <div class="tag">Closed Sales · 12,853 transactions</div>
+        <h3>It Pays to Be Patient</h3>
+        <p>Does waiting longer net a higher price per sq ft? The answer depends entirely on geography.</p>
+        <div class="go">Open Report →</div>
+      </a>
+      <a class="card pop" href="https://hoffmanap.github.io/rentcast_ep/" target="_blank" rel="noopener">
+        <div class="tag">Rental Dashboard</div>
+        <h3>El Paso Rental Market Trends</h3>
+        <p>Monthly rent and price-per-square-foot trends by bedroom count and zip code.</p>
+        <div class="go">Open Report →</div>
+      </a>
+      <a class="card pop" href="https://hoffmanap.github.io/investorproperty/" target="_blank" rel="noopener">
+        <div class="tag">Market Dynamics Tracker</div>
+        <h3>Corporate &amp; Investor-Owned Property</h3>
+        <p>Institutional and out-of-town buyers of 1–4 unit homes, against a live rent-burden simulator.</p>
+        <div class="go">Open Report →</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ================= TOOLS ================= -->
+  <section class="catsection cat-tools" id="tools">
+    <div class="cat-head">
+      <div class="eyebrow cat-eyebrow" style="background:var(--lavender);">🛠️ POLICY LEVERS</div>
+      <h2 class="cat-headline display">THREE LEVERS THAT ADD CAPACITY <mark class="hl lavender">BY RIGHT</mark></h2>
+      <p class="cat-finding">Each tool below tests a specific zoning change against real parcels and a real citywide target, not just theory. Missing-middle upzoning, lot splits, a strategy simulator, and a weekly feasibility model ask the same question a few different ways: how many units could this city <mark class="hl lavender">legally add tomorrow</mark> — and would the math actually work?</p>
+    </div>
+    <div class="cardgrid">
+      <a class="card pop" href="https://hoffmanap.github.io/EPmissingmiddle/" target="_blank" rel="noopener">
+        <div class="tag">Latent Demand · 187 tracts</div>
+        <h3>The Case for Missing Middle Housing</h3>
+        <p>Census demand signals mapped by tract, sorted into adaptive-reuse vs. new-construction candidates.</p>
+        <div class="go">Open Report →</div>
+      </a>
+      <a class="card pop" href="https://hoffmanap.github.io/eplotsplits/" target="_blank" rel="noopener">
+        <div class="tag">Capacity Simulator</div>
+        <h3>Urban Lot Splitter</h3>
+        <p>Live simulator — adjust minimum lot size and width to see eligible parcels change in real time.</p>
+        <div class="go">Open Report →</div>
+      </a>
+      <a class="card pop" href="https://hoffmanap.github.io/housingstrategy/" target="_blank" rel="noopener">
+        <div class="tag">Citywide Simulator · 35,000-unit goal</div>
+        <h3>El Paso Housing Strategy Simulator</h3>
+        <p>Test ADUs, lot splits, and upzoning against a real citywide unit-and-jobs target, by district.</p>
+        <div class="go">Open Report →</div>
+      </a>
+      <a class="card pop" href="https://hoffmanap.github.io/rentcast_ep/ami-feasibility/" target="_blank" rel="noopener">
+        <div class="tag">Weekly Data Story · Updated Thursdays</div>
+        <h3>Why the Rent Isn't the Problem</h3>
+        <p>Rents already sit below what's affordable at 100% AMI — the reason legal duplexes and ADUs mostly don't get built is construction math, not zoning.</p>
+        <div class="go">Open Report →</div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="note">Built from Census/ACS, HUD, HMDA, MLS, RentCast, Regrid, and Data Axle mover data. Each report is a standalone site — this page only indexes them.</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
